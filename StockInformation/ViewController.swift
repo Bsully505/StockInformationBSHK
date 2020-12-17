@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  StockInformation
 //
-//  Created by Bryan Sullivan on 12/15/20.
+//  Created by Bryan Sullivan and Henok Ketsela on 12/15/20.
 //
 
 import UIKit
