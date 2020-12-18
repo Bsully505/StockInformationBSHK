@@ -1,0 +1,71 @@
+{
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "localizable" : true
+  },
+  "symbols" : [
+    {
+      "idiom" : "universal",
+      "language-direction" : "left-to-right"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "idiom" : "universal",
+      "language-direction" : "left-to-right"
+    },
+    {
+      "idiom" : "universal",
+      "language-direction" : "right-to-left"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "idiom" : "universal",
+      "language-direction" : "right-to-left"
+    },
+    {
+      "idiom" : "universal",
+      "language-direction" : "left-to-right",
+      "locale" : "en"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "idiom" : "universal",
+      "language-direction" : "left-to-right",
+      "locale" : "en"
+    },
+    {
+      "idiom" : "universal",
+      "language-direction" : "right-to-left",
+      "locale" : "en"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "idiom" : "universal",
+      "language-direction" : "right-to-left",
+      "locale" : "en"
+    }
+  ]
+}
