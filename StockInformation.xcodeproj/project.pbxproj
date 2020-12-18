@@ -15,6 +15,8 @@
 		6458B21225896135003D4376 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6458B21025896135003D4376 /* LaunchScreen.storyboard */; };
 		6458B21D25896136003D4376 /* StockInformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6458B21C25896136003D4376 /* StockInformationTests.swift */; };
 		6458B22825896136003D4376 /* StockInformationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6458B22725896136003D4376 /* StockInformationUITests.swift */; };
+		6458B23F258D53AC003D4376 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6458B23E258D53AC003D4376 /* EntryViewController.swift */; };
+		6458B244258D53CC003D4376 /* StockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6458B243258D53CC003D4376 /* StockViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		6458B22325896136003D4376 /* StockInformationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StockInformationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6458B22725896136003D4376 /* StockInformationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockInformationUITests.swift; sourceTree = "<group>"; };
 		6458B22925896136003D4376 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6458B23E258D53AC003D4376 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
+		6458B243258D53CC003D4376 /* StockViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,8 @@
 				6458B20E25896135003D4376 /* Assets.xcassets */,
 				6458B21025896135003D4376 /* LaunchScreen.storyboard */,
 				6458B21325896135003D4376 /* Info.plist */,
+				6458B23E258D53AC003D4376 /* EntryViewController.swift */,
+				6458B243258D53CC003D4376 /* StockViewController.swift */,
 			);
 			path = StockInformation;
 			sourceTree = "<group>";
@@ -259,8 +265,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				6458B20A2589612C003D4376 /* ViewController.swift in Sources */,
+				6458B23F258D53AC003D4376 /* EntryViewController.swift in Sources */,
 				6458B2062589612C003D4376 /* AppDelegate.swift in Sources */,
 				6458B2082589612C003D4376 /* SceneDelegate.swift in Sources */,
+				6458B244258D53CC003D4376 /* StockViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
