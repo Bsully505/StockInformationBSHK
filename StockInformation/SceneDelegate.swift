@@ -56,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com"
         ]
 
-        let request = NSMutableURLRequest(url: NSURL(string: "https://yahoo-finance-low-latency.p.rapidapi.com/v8/finance/chart/AAPL?comparisons=MSFT%2C%5EVIX")! as URL,
+        let request = NSMutableURLRequest(url: NSURL(string: "https://yahoo-finance-low-latency.p.rapidapi.com/v8/finance/chart/APPL?")! as URL,
                                                 cachePolicy: .useProtocolCachePolicy,
                                             timeoutInterval: 10.0)
         request.httpMethod = "GET"
@@ -64,12 +64,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+            
+            
             if (error != nil) {
-                print("error")
+                print(error as Any)
             } else {
                 let httpResponse = response as? HTTPURLResponse
-                print(httpResponse as Any)
+                
+                print(httpResponse?.allHeaderFields as Any)
+                do {
+                            let dataDictionary = try JSONSerialization.jsonObject(with: data! as Data, options: .allowFragments) as! NSDictionary
+
+                            print("Response dictionary is:\(dataDictionary)")
+                   
+                        }
+                        catch let error as NSError {
+                            print("Error = \(error.localizedDescription)")
+                    
+                        }
             }
+ 
         })
 
         dataTask.resume()
