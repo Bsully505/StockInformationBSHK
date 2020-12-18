@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        simpleGetUrlWithParamRequest()
+        
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
@@ -48,47 +48,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-    func simpleGetUrlWithParamRequest()
-        {
-        
-        let headers = [
-            "x-rapidapi-key": "136911ffb3msh69c6efb713e8d01p16ecf6jsnb0202d799a9f",
-            "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com"
-        ]
-
-        let request = NSMutableURLRequest(url: NSURL(string: "https://yahoo-finance-low-latency.p.rapidapi.com/v8/finance/chart/APPL?")! as URL,
-                                                cachePolicy: .useProtocolCachePolicy,
-                                            timeoutInterval: 10.0)
-        request.httpMethod = "GET"
-        request.allHTTPHeaderFields = headers
-
-        let session = URLSession.shared
-        let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-            
-            
-            if (error != nil) {
-                print(error as Any)
-            } else {
-                let httpResponse = response as? HTTPURLResponse
-                
-                print(httpResponse?.allHeaderFields as Any)
-                do {
-                            let dataDictionary = try JSONSerialization.jsonObject(with: data! as Data, options: .allowFragments) as! NSDictionary
-
-                            print("Response dictionary is:\(dataDictionary)")
-                   
-                        }
-                        catch let error as NSError {
-                            print("Error = \(error.localizedDescription)")
-                    
-                        }
-            }
- 
-        })
-
-        dataTask.resume()
-        
-    }
+    
         
 }
         
