@@ -25,7 +25,7 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
     }
 
     @objc func SaveStock(){
-        guard let text = field.text, !text.isEmpty else{
+        guard let StockSym = field.text, !StockSym.isEmpty else{
             return
         }
         guard let count = UserDefaults().value(forKey: "count") as? Int else{
@@ -34,7 +34,7 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
         let newcount = count+1;
         
         UserDefaults().setValue(newcount, forKey: "count")
-        UserDefaults().setValue(text, forKey:"stock_\(newcount)")
+        UserDefaults().setValue(StockSym, forKey:"stock_\(newcount)")
         
         update?()
         navigationController?.popViewController(animated: true)
