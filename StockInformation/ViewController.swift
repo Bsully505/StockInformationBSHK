@@ -20,11 +20,15 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         if !UserDefaults().bool(forKey: "setup"){
-           UserDefaults().set(true, forKey: "setup")
+            UserDefaults().set(true, forKey: "setup")
             UserDefaults().set(0, forKey: "count")
             
             
+            
         }
+        let defaults = UserDefaults.standard
+        
+        print(defaults.value(forKey: "count") as? Int)
         // Do any additional setup after loading the view.
     }
     func UpdateStocks(){
@@ -32,8 +36,8 @@ class ViewController: UIViewController {
         guard let count = UserDefaults.value(forKey: "count") as? Int else{
             return
         }
-        for x in 1...count{
-            if let stock = UserDefaults.value(forKey: "Stock_\(x)") as? String{
+        for x in 0..<count{
+            if let stock = UserDefaults.value(forKey: "Stock_\(x+1)") as? String{
                 stockSymbols.append(stock)
             }
         }
