@@ -37,8 +37,8 @@ class StockViewController: UIViewController {
         
         defaults.setValue(newcount,forKey: "count");
         
-        defaults.setValue(nil,forKey: "stock_\(curPos!)");//now i am going to have to shift the rest of the stocks up so that we do not have a gap
-        for x in curPos!..<count{
+        defaults.setValue(nil,forKey: "stock_\(curPos!+1)");//now i am going to have to shift the rest of the stocks up so that we do not have a gap
+        for x in curPos!+1..<count{
             defaults.setValue(defaults.value(forKey:"stock_\(x+1)"),forKey: "stock_\(x)")
         }
         update?();

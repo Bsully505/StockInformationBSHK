@@ -100,9 +100,15 @@ extension ViewController: UITableViewDelegate{
         tableView.deselectRow(at: indexPath, animated: true)
         
         let vc = storyboard?.instantiateViewController(identifier: "StockSymbol") as! StockViewController
-        vc.title = "new Stock"
+        vc.title = "Stock Information"
         vc.stockSym = stockSymbols[indexPath.row]
         vc.curPos = indexPath.row as Int
+        vc.update = {
+            DispatchQueue.main.async {
+                self.UpdateStocks()
+            }
+            
+        }
         navigationController?.pushViewController(vc, animated: true)
         
     }
