@@ -16,7 +16,8 @@ ideas:
 1)Think of what we can add to the page after selecting the stock aka more data, Graph, 52 week high and low, closing price from previous day
 2)create a loading screen that looks 
 
-
+Working on 
+1)no duplicates -Bryan
 
 what we finished 
-1)no duplicates -Bryan
+1)Add and delete functions
