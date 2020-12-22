@@ -13,8 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        print("Hello, World");
-       // simpleGetUrlWithParamRequest()
+        
+        //simpleGetUrlWithParamRequest()
         // Override point for customization after application launch.
         return true
     }
@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
             
         ]
-        //let TempURL =  "https://cloud.iexapis.com/stable/stock/APPL/quote?token=pk_9de1eaea0bd444cdbea4bde246826f92"
+ 
         let realURL =  "https://yahoo-finance-low-latency.p.rapidapi.com/v8/finance/chart/AAPL?interval=1m&range=1d"
         let request = NSMutableURLRequest(url: NSURL(string: realURL)! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
@@ -67,8 +67,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     //print("Response dictionary is:\(dataDictionary)")
                     let Stock_Price = dataDictionary.allValues//(forKey: "regularMarketPrice")
-                    let Stock_Ticket = dataDictionary.value(forKey: "chart/result")
-                    //print("the current stock price for \(Stock_Ticket as Any) is \(Stock_Price as Any) ")
+                    let Stock_Ticket = dataDictionary.value(forKey: "chart")
+                    print("the current stock price for \(Stock_Ticket as Any) is \(Stock_Price as Any) ")
                     
                 }
                 catch let error as NSError {
