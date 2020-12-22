@@ -1,5 +1,5 @@
 # StockInformationBSHK
-App for updating a users stocks to see their current amount of stock and the ability to check the cost of other stocks. Written in Swift. Authors, Bryan Sullivan, Henok Ketsela 
+App for updating a users stocks to see their current amount of stock and the ability to check the cost of other stocks. Written in Swift. Authors, Bryan Sullivan, Henok Ketsela start date of project was december 18th, 2020
 
 
 What we still have to do:
@@ -14,6 +14,7 @@ important:
 
 ideas:
 1)Think of what we can add to the page after selecting the stock aka more data, Graph, 52 week high and low, closing price from previous day
+2)create a loading screen that looks 
 
 
 
