@@ -14,3 +14,8 @@ important:
 
 ideas:
 1)Think of what we can add to the page after selecting the stock aka more data, Graph, 52 week high and low, closing price from previous day
+
+
+
+what we finished 
+1)no duplicates -Bryan
