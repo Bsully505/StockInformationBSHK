@@ -20,6 +20,7 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        //this is where we can add a check for User input which would allow us to call the current string in the text field and then place some data into a label underneath the textbox with the company name not the symbol 
         SaveStock()
         return true
     }
