@@ -72,6 +72,7 @@ class ViewController: UIViewController {
     @IBAction func didTouchApp(){
         let vc = storyboard?.instantiateViewController(identifier: "Entry") as! EntryViewController
         vc.title = "new Stock"
+        vc.stockSym1 = stockSymbols
         vc.update = {
             DispatchQueue.main.async {
                 self.UpdateStocks()
@@ -80,18 +81,7 @@ class ViewController: UIViewController {
         }
         navigationController?.pushViewController(vc, animated: true)
     }
-    @IBAction func didTouchAppfinish(){
-        let vc = storyboard?.instantiateViewController(identifier: "Entry") as! StockViewController
-        vc.title = "new Stock"
-        vc.update = {
-            DispatchQueue.main.async {
-                self.UpdateStocks()
-            }
-            
-        }
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
+   
 
 
 }
@@ -103,6 +93,7 @@ extension ViewController: UITableViewDelegate{
         vc.title = "Stock Information"
         vc.stockSym = stockSymbols[indexPath.row]
         vc.curPos = indexPath.row as Int
+        
         vc.update = {
             DispatchQueue.main.async {
                 self.UpdateStocks()
