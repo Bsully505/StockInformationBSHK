@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class ViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
@@ -22,22 +23,47 @@ class ViewController: UIViewController {
         if !UserDefaults().bool(forKey: "setup"){
             UserDefaults().set(true, forKey: "setup")
             UserDefaults().set(0, forKey: "count")
-            
-            
-            
         }
+      
         let defaults = UserDefaults.standard
-        
-        print(defaults.value(forKey: "count") as? Int)
+        //self.MasterReset()
+        self.UpdateStocks()
+        let count = defaults.value(forKey: "count") as? Int as Any
+        print("the count is \(count)")
         // Do any additional setup after loading the view.
     }
-    func UpdateStocks(){
+    
+    func MasterReset(){
+        let defaults = UserDefaults.standard
+        deleteStocks()
+        defaults.setValue(0,forKey: "count");
+        
+        
+        
+    }
+    func deleteStocks(){
         stockSymbols.removeAll()
-        guard let count = UserDefaults.value(forKey: "count") as? Int else{
+        let defaults = UserDefaults.standard
+        guard let count = defaults.value(forKey: "count") as? Int else{
             return
         }
         for x in 0..<count{
-            if let stock = UserDefaults.value(forKey: "Stock_\(x+1)") as? String{
+            if let stock = defaults.setValue(nil, forKey: "stock_\(x+1)") as? String{
+                //print("at position \(x) we have \(stock)")
+                //stockSymbols.append(stock)
+            }
+        }
+        tableView.reloadData()
+    }
+    func UpdateStocks(){
+        stockSymbols.removeAll()
+        let defaults = UserDefaults.standard
+        guard let count = defaults.value(forKey: "count") as? Int else{
+            return
+        }
+        for x in 0..<count{
+            if let stock = defaults.value(forKey: "stock_\(x+1)") as? String{
+                print("at position \(x) we have \(stock)")
                 stockSymbols.append(stock)
             }
         }
@@ -54,12 +80,31 @@ class ViewController: UIViewController {
         }
         navigationController?.pushViewController(vc, animated: true)
     }
+    @IBAction func didTouchAppfinish(){
+        let vc = storyboard?.instantiateViewController(identifier: "Entry") as! StockViewController
+        vc.title = "new Stock"
+        vc.update = {
+            DispatchQueue.main.async {
+                self.UpdateStocks()
+            }
+            
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
 
 
 }
 extension ViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let vc = storyboard?.instantiateViewController(identifier: "StockSymbol") as! StockViewController
+        vc.title = "new Stock"
+        vc.stockSym = stockSymbols[indexPath.row]
+        vc.curPos = indexPath.row as Int
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
 }
 
