@@ -23,7 +23,7 @@ learning how to parse json that we can properly use the headers. both Bryan and 
 
 
 Links for Research;
-
+https://www.youtube.com/watch?v=EvwSB80GGDA goes over how to parse through the JSON string and how we can recieve data. 
 
 what we finished 
 1)Add and delete functions
