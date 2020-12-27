@@ -56,6 +56,7 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
                       label.text = "Please do not include duplicates, \(StockSym) is \n already in your portfolio"
                 
                 }
+            //create user input test case which states if the stock symbol exists 
             
         }
     
