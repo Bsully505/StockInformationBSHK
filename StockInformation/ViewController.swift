@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     var stockSymbols = [String]()
+    var currentPriceView: Double = 1.5
     
     
     override func viewDidLoad() {
@@ -48,10 +49,8 @@ class ViewController: UIViewController {
             return
         }
         for x in 0..<count{
-            if let _ = defaults.setValue(nil, forKey: "stock_\(x+1)") as? String{
-                //print("at position \(x) we have \(stock)")
-                //stockSymbols.append(stock)
-            }
+           defaults.setValue(nil, forKey: "stock_\(x+1)")
+            
         }
         tableView.reloadData()
     }
@@ -86,23 +85,37 @@ class ViewController: UIViewController {
 
 }
 extension ViewController: UITableViewDelegate{
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let vc = storyboard?.instantiateViewController(identifier: "StockSymbol") as! StockViewController
+        
+        self.GetStockValueforStockSym(stockSymbolTemp: stockSymbols[indexPath.row], VC: vc)
         vc.title = "Stock Information"
         vc.stockSym = stockSymbols[indexPath.row]
         vc.curPos = indexPath.row as Int
-        vc.CurPrice = GetStockValueforStockSym(stockSymbolTemp: vc.stockSym!)
+        vc.CurPrice = currentPriceView
         vc.update = {
             DispatchQueue.main.async {
                 self.UpdateStocks()
             }
             
         }
+        
+        vc.UpdateLabel = {
+            DispatchQueue.main.async{
+                //vc.label.text = ("The current stock price for "+vc.stockSym + " is $" + String(self.currentPriceView)) fix needed due to not fitting in the label possible fix is resizeing in main storyboard
+                vc.label.text = (vc.stockSym + " " + String(self.currentPriceView))
+                print("curprice is currently \(self.currentPriceView)")
+            }
+            
+        }
+ 
         navigationController?.pushViewController(vc, animated: true)
         
     }
+   
 }
 
 extension ViewController: UITableViewDataSource{
@@ -116,9 +129,11 @@ extension ViewController: UITableViewDataSource{
         cell.textLabel?.text = stockSymbols[indexPath.row]
         return cell;
     }
-    func GetStockValueforStockSym(stockSymbolTemp :String ) -> Double//change the variable name after
+    
+    
+    func GetStockValueforStockSym(stockSymbolTemp :String, VC: StockViewController ) -> Double//change the variable name after
     {
-        var CurVal: Double = 1.0 // Double = 1.0// it is returning 1.0 not the changed value
+        var CurVal: Double = self.currentPriceView// has the value of the previous stock
         
         let headers = [
             "x-rapidapi-key": "136911ffb3msh69c6efb713e8d01p16ecf6jsnb0202d799a9f",
@@ -138,12 +153,7 @@ extension ViewController: UITableViewDataSource{
         
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-            
-           // if let data = data, let dataString = String(data: data, encoding: .utf8) {
-               // print("Response data string:\n \(dataString)")
-                
-          //  }
-            
+
             if (error != nil) {
                 print(error as Any)
             } else {
@@ -153,11 +163,14 @@ extension ViewController: UITableViewDataSource{
                         if let notchart = dataDictionary["chart"]! as? NSDictionary{
                             if let results = notchart["result"] as? [[String:Any]]{//insert here
                                 if let meta = results[0]["meta"] as? [String:Any]{
-                                    CurVal = (meta["regularMarketPrice"]! as! Double)
-                                    print("The curVal value is changed to \(CurVal)")
+                                    self.currentPriceView = (meta["regularMarketPrice"]! as! Double)
+                                    print("The curVal value is changed to \(self.currentPriceView)")
+                                    VC.UpdateLabel?()
+                                    
                                 }
                             }
                             else{
+                                //this is where the function goes when the ticket is not an actual stock symbol aka url no good 
                                 print("still no good")
                             }
                         }
@@ -166,39 +179,6 @@ extension ViewController: UITableViewDataSource{
                         }
                     }
                         
-                    
-                    
-                   // let Json = try JSONDecoder().decode(Decodable.Protocol, from: data!)
-                    //let dataDictionary = try JSONSerialization.jsonObject(with: data! as Data, option: .mutableContainers ,.allowFragmentation) as! [String]
-                    
-                    
-                  /*
-                 {//the reason why this is not working is due to notchart["results"] is not the datatype of a String or of String:Any so what data type is it
-                     if let metas = results["meta"] as? NSDictionary{
-                         print ("meta is: \(metas)");
-                     }
-                     else{
-                     print("the else of metas")
-                     }
-                 }
-                 else{
-                     // results are not being the form of the if statement
-                     print("the else of result")
-                     if let errors = notchart["error"]! as? [String: Any]{
-                         print("these are the errors \(errors)")
-                     }
-                     else{
-                         //print("results and errors did not work \(notchart.index(forKey: "error"))")
-                         
-                     }*/
-                   
-                    
-                    
-                    
-                    
-                    
-                       
-                   
                 }
                 catch let error as NSError {
                     print("Error = \(error.localizedDescription)")
