@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        //simpleGetUrlWithParamRequest()
+        GetStockValueforStockSym(stockSymbolTemp: "TSLA")
         // Override point for customization after application launch.
         return true
     }
@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-    func simpleGetUrlWithParamRequest()
+    func GetStockValueforStockSym(stockSymbolTemp :String ) //change the variable name after
     {
         
         let headers = [
@@ -40,8 +40,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
             
         ]
- 
-        let realURL =  "https://yahoo-finance-low-latency.p.rapidapi.com/v8/finance/chart/AAPL?interval=1m&range=1d"
+        let beginningURLString = "https://yahoo-finance-low-latency.p.rapidapi.com/v8/finance/chart/";
+        let stockToken = stockSymbolTemp
+        let EndURL =  "?interval=1m&range=1d"
+        let realURL = beginningURLString + stockToken + EndURL
         let request = NSMutableURLRequest(url: NSURL(string: realURL)! as URL,
                                           cachePolicy: .useProtocolCachePolicy,
                                           timeoutInterval: 20.0)
@@ -52,24 +54,66 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
             
-            if let data = data, let dataString = String(data: data, encoding: .utf8) {
-                //print("Response data string:\n \(dataString)")
+           // if let data = data, let dataString = String(data: data, encoding: .utf8) {
+               // print("Response data string:\n \(dataString)")
                 
-            }
+          //  }
             
             if (error != nil) {
                 print(error as Any)
-            } else {//this prints out the headers of the respnce from the api we do not need to use this data
-                //let httpResponse = response as? HTTPURLResponse
-                //print(httpResponse as Any)
+            } else {
                 do {
-                    let dataDictionary = try JSONSerialization.jsonObject(with: data! as Data, options: .allowFragments) as! NSDictionary
                     
-                    //print("Response dictionary is:\(dataDictionary)")
-                    let Stock_Price = dataDictionary.allValues//(forKey: "regularMarketPrice")
-                    let Stock_Ticket = dataDictionary.value(forKey: "chart")
-                    print("the current stock price for \(Stock_Ticket as Any) is \(Stock_Price as Any) ")
+                    if let dataDictionary = try JSONSerialization.jsonObject(with: data! as Data, options:[.allowFragments]) as? NSDictionary {
+                        if let notchart = dataDictionary["chart"]! as? NSDictionary{
+                            
+                            if let results = notchart["result"] as? [[String:Any]]{//insert here
+                                if let meta = results[0]["meta"] as? [String:Any]{
+                                    print(meta["regularMarketPrice"]! as! Double)
+                                }
+                            }
+                            else{
+                                print("still no good")
+                            }
+                        }
+                        else{
+                            print("the NSDictionary did not work ")
+                        }
+                    }
+                        
                     
+                    
+                   // let Json = try JSONDecoder().decode(Decodable.Protocol, from: data!)
+                    //let dataDictionary = try JSONSerialization.jsonObject(with: data! as Data, option: .mutableContainers ,.allowFragmentation) as! [String]
+                    
+                    
+                  /*
+                 {//the reason why this is not working is due to notchart["results"] is not the datatype of a String or of String:Any so what data type is it
+                     if let metas = results["meta"] as? NSDictionary{
+                         print ("meta is: \(metas)");
+                     }
+                     else{
+                     print("the else of metas")
+                     }
+                 }
+                 else{
+                     // results are not being the form of the if statement
+                     print("the else of result")
+                     if let errors = notchart["error"]! as? [String: Any]{
+                         print("these are the errors \(errors)")
+                     }
+                     else{
+                         //print("results and errors did not work \(notchart.index(forKey: "error"))")
+                         
+                     }*/
+                   
+                    
+                    
+                    
+                    
+                    
+                       
+                   
                 }
                 catch let error as NSError {
                     print("Error = \(error.localizedDescription)")
