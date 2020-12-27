@@ -38,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let headers = [
             "x-rapidapi-key": "136911ffb3msh69c6efb713e8d01p16ecf6jsnb0202d799a9f",
             "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
+            // Henok's Key "x-rapidapi-key": "1529265bf5mshfd12832f51f908dp16ebb4jsne36b181d2338",
             
         ]
         let beginningURLString = "https://yahoo-finance-low-latency.p.rapidapi.com/v8/finance/chart/";
