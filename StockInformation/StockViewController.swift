@@ -11,14 +11,18 @@ class StockViewController: UIViewController {
     
     @IBOutlet var label: UILabel!
     
-    var stockSym: String?
+    var stockSym: String!
     var curPos: Int?
     var update :(() -> Void)?
+    var CurPrice: Double?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        label.text = stockSym
+        print("the stock Symbol is \(stockSym!)")
+       
+        print("the value for stockVal is \(CurPrice ?? 1.21)")
+        let labelOutput = (stockSym! + String(CurPrice!))
+        label.text = labelOutput
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(DeleteStock))
     }
     
@@ -39,6 +43,9 @@ class StockViewController: UIViewController {
         navigationController?.popViewController(animated: true)
         
     }
+   
+    
+    
     
 
     

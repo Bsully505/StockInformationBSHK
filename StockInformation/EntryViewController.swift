@@ -10,7 +10,8 @@ import UIKit
 class EntryViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet var field: UITextField! //This is the way the user inputs the added stock symbol
-   
+    @IBOutlet weak var label: UILabel!
+    
     var update :(() -> Void)?
     var stockSym1 =  [String]()
     
@@ -41,21 +42,25 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
             return
         }
         if !stockSym1.contains(field.text!){
-            
-        
-        let newcount = count+1;
-        
-        UserDefaults().setValue(newcount, forKey: "count")
-        UserDefaults().setValue(StockSym, forKey:"stock_\(newcount)")
-        
-        update?()
-        navigationController?.popViewController(animated: true)
-        
+            let newcount = count+1;
+            UserDefaults().setValue(newcount, forKey: "count")
+            UserDefaults().setValue(StockSym, forKey:"stock_\(newcount)")
+            update?()
+            navigationController?.popViewController(animated: true)
     }
         else{
-            //this is where we can code up a label which would include text stating that no duplicate code can be made. 
+            //this is where we can code up a label which would include text stating that no duplicate code can be made.
+            if label.text == "result" {     // you should probably force everything to lowercase, to avoid wrong test
+                      label.text = "Correct"
+                } else {
+                      label.text = "Please do not include duplicates, \(StockSym) is \n already in your portfolio"
+                
+                }
+            
         }
     
 
 }
+   
+
 }
