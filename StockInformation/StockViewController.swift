@@ -15,14 +15,16 @@ class StockViewController: UIViewController {
     var curPos: Int?
     var update :(() -> Void)?
     var CurPrice: Double?
+    var UpdateLabel: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("the stock Symbol is \(stockSym!)")
-       
-        print("the value for stockVal is \(CurPrice ?? 1.21)")
+        
+        print("the value for CurPrice on line 24 is \(CurPrice ?? 1.21)")//returning 1.0
         let labelOutput = (stockSym! + String(CurPrice!))
         label.text = labelOutput
+        UpdateLabel?()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(DeleteStock))
     }
     
