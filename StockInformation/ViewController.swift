@@ -9,7 +9,7 @@ import UIKit
 
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet var tableView: UITableView!
     var stockSymbols = [String]()
     var currentPriceView: Double = 1.5
@@ -25,7 +25,7 @@ class ViewController: UIViewController {
             UserDefaults().set(true, forKey: "setup")
             UserDefaults().set(0, forKey: "count")
         }
-      
+        
         let defaults = UserDefaults.standard
         //self.MasterReset() //only used when wanting to erase all data on the phone
         self.UpdateStocks()
@@ -49,7 +49,7 @@ class ViewController: UIViewController {
             return
         }
         for x in 0..<count{
-           defaults.setValue(nil, forKey: "stock_\(x+1)")
+            defaults.setValue(nil, forKey: "stock_\(x+1)")
             
         }
         tableView.reloadData()
@@ -80,9 +80,9 @@ class ViewController: UIViewController {
         }
         navigationController?.pushViewController(vc, animated: true)
     }
-   
-
-
+    
+    
+    
 }
 extension ViewController: UITableViewDelegate{
     
@@ -105,17 +105,17 @@ extension ViewController: UITableViewDelegate{
         
         vc.UpdateLabel = {
             DispatchQueue.main.async{
-                //vc.label.text = ("The current stock price for "+vc.stockSym + " is $" + String(self.currentPriceView)) fix needed due to not fitting in the label possible fix is resizeing in main storyboard
-                vc.label.text = (vc.stockSym + " " + String(self.currentPriceView))
+                vc.label.text = ("The current stock price for " + vc.stockSym + " is $" + String(self.currentPriceView)) //fix needed due to not fitting in the label possible fix is resizeing in main storyboard
+                // vc.label.text = (vc.stockSym + " " + String(self.currentPriceView))
                 print("curprice is currently \(self.currentPriceView)")
             }
             
         }
- 
+        
         navigationController?.pushViewController(vc, animated: true)
         
     }
-   
+    
 }
 
 extension ViewController: UITableViewDataSource{
@@ -153,7 +153,7 @@ extension ViewController: UITableViewDataSource{
         
         let session = URLSession.shared
         let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-
+            
             if (error != nil) {
                 print(error as Any)
             } else {
@@ -163,10 +163,14 @@ extension ViewController: UITableViewDataSource{
                         if let notchart = dataDictionary["chart"]! as? NSDictionary{
                             if let results = notchart["result"] as? [[String:Any]]{//insert here
                                 if let meta = results[0]["meta"] as? [String:Any]{
-                                    self.currentPriceView = (meta["regularMarketPrice"]! as! Double)
-                                    print("The curVal value is changed to \(self.currentPriceView)")
-                                    VC.UpdateLabel?()
-                                    
+                                    if let cpv = (meta["regularMarketPrice"] as? Double){
+                                        self.currentPriceView = cpv
+                                        print("The curVal value is changed to \(self.currentPriceView)")
+                                        VC.UpdateLabel?()
+                                    } else {
+                                        self.currentPriceView = -1.0
+                                        VC.UpdateLabel?()
+                                    }
                                 }
                             }
                             else{
@@ -178,7 +182,7 @@ extension ViewController: UITableViewDataSource{
                             print("the NSDictionary did not work ")
                         }
                     }
-                        
+                    
                 }
                 catch let error as NSError {
                     print("Error = \(error.localizedDescription)")
@@ -190,7 +194,7 @@ extension ViewController: UITableViewDataSource{
         
         dataTask.resume()
         return CurVal
-       
+        
     }
     
     
