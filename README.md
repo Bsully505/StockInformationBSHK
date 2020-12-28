@@ -11,6 +11,8 @@ What we still have to do:
 5) try and find proper data types to contain the data of a stock aka an array for the values for the past day which would be used to create a graph 
 6) Try and optimize calls possibly using the comparison 
 7)pretty print the layout of the app which would make it look more professional 
+8) being able to select a Refresh rate and then have the price of the stock on the right of the stock symbol- recommended by ed sullivan
+9) be able to get an image of a chart and then just show the image if not we would have to be able to grab the data and then code the chart itself and that would be time consuming 
 
 important:
 1)
