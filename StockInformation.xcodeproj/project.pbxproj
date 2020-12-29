@@ -146,13 +146,6 @@
 			path = StockInformationUITests;
 			sourceTree = "<group>";
 		};
-		649876C9259A841F00C4CD0C /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
