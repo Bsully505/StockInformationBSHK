@@ -20,11 +20,9 @@ class StockViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("the stock Symbol is \(stockSym!)")
-        
-        print("the value for CurPrice on line 24 is \(CurPrice ?? 1.21)")//returning 1.0
-        let labelOutput = (stockSym! + String(CurPrice!))
+        let labelOutput = ("Loading...")
         label.text = labelOutput
-        UpdateLabel?()
+        //UpdateLabel?()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(DeleteStock))
     }
     

@@ -39,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01A959FE258D635E00543BC5 /* StockInformationBSHK */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = StockInformationBSHK; sourceTree = SOURCE_ROOT; };
 		6458B2022589612C003D4376 /* StockInformation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockInformation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6458B2052589612C003D4376 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6458B2072589612C003D4376 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +83,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01A95A20259BBD1D00543BC5 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				01A959FE258D635E00543BC5 /* StockInformationBSHK */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		6458B1F92589612C003D4376 = {
 			isa = PBXGroup;
 			children = (
@@ -89,7 +98,7 @@
 				6458B21B25896136003D4376 /* StockInformationTests */,
 				6458B22625896136003D4376 /* StockInformationUITests */,
 				6458B2032589612C003D4376 /* Products */,
-				649876C9259A841F00C4CD0C /* Recovered References */,
+				01A95A20259BBD1D00543BC5 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
