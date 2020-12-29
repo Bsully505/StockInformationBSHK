@@ -55,6 +55,7 @@ class ViewController: UIViewController {
         tableView.reloadData()
     }
     func UpdateStocks(){
+       // perform (#selector(authenticate), with: nil, afterDelay: 100)
         stockSymbols.removeAll()
         let defaults = UserDefaults.standard
         guard let count = defaults.value(forKey: "count") as? Int else{
@@ -104,7 +105,7 @@ extension ViewController: UITableViewDelegate{
         }
         
         vc.UpdateLabel = {
-            DispatchQueue.main.async{
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7){
                 vc.label.text = ("The current stock price for " + vc.stockSym + " is $" + String(self.currentPriceView)) //fix needed due to not fitting in the label possible fix is resizeing in main storyboard
                 // vc.label.text = (vc.stockSym + " " + String(self.currentPriceView))
                 print("curprice is currently \(self.currentPriceView)")
