@@ -11,6 +11,7 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet var field: UITextField! //This is the way the user inputs the added stock symbol
     @IBOutlet weak var label: UILabel!
+    @IBOutlet var StockInfo: UILabel!
     
     var update :(() -> Void)?
     var stockSym1 =  [String]()
@@ -74,6 +75,11 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
         }
     
 
+    }
+    
+    @IBAction func TestStock(){//this is where you call the funtion and update the label 
+        let StockSymbol = field.text
+        StockInfo.text = " Enter Stock Info HERE \(StockSymbol)"
     }
     
     func GetStockValueforStockSym(stockSymbolTemp :String) -> Double//change the variable name after
