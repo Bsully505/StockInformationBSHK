@@ -108,6 +108,7 @@ extension ViewController: UITableViewDelegate{
         vc.stockSym = stockSymbols[indexPath.row]
         vc.curPos = indexPath.row as Int
         vc.CurPrice = self.GetStockValueforStockSym(stockSymbolTemp: vc.stockSym)
+       // vc.CounterLabel.text = String( UserDefaults().value(forKey: "\(vc.stockSym)_Count"))
         vc.update = {
             DispatchQueue.main.async {
                 self.UpdateStocks()
