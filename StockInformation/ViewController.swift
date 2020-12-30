@@ -14,9 +14,11 @@ import UIKit
 class ViewController: UIViewController {
     
     
-    @IBOutlet var tableView: UITableView! 
+    @IBOutlet var tableView: UITableView!
+    
     var stockSymbols = [String]()
     var currentPriceView: Double = 1.5
+    let debugmodeFlag: Bool = true     //allows to togle getting real api requests
     
     
     override func viewDidLoad() {
@@ -33,8 +35,6 @@ class ViewController: UIViewController {
         let defaults = UserDefaults.standard
         //self.MasterReset() //only used when wanting to erase all data on the phone
         self.UpdateStocks()
-        let count = defaults.value(forKey: "count") as? Int as Any
-        //print("the count is \(count!)")
         // Do any additional setup after loading the view.
     }
     
@@ -75,6 +75,9 @@ class ViewController: UIViewController {
         tableView.reloadData()
         
     }
+    @IBAction func refreshPortfolioStocks(){
+        self.UpdateStocks()
+    }
     @IBAction func didTouchApp(){
         let vc = storyboard?.instantiateViewController(identifier: "Entry") as! EntryViewController
         vc.title = "new Stock"
@@ -99,11 +102,11 @@ extension ViewController: UITableViewDelegate{
         
         let vc = storyboard?.instantiateViewController(identifier: "StockSymbol") as! StockViewController
         
-        self.GetStockValueforStockSym(stockSymbolTemp: stockSymbols[indexPath.row], VC: vc)
+       
         vc.title = "Stock Information"
         vc.stockSym = stockSymbols[indexPath.row]
         vc.curPos = indexPath.row as Int
-        vc.CurPrice = currentPriceView
+        vc.CurPrice = self.GetStockValueforStockSym(stockSymbolTemp: vc.stockSym)
         vc.update = {
             DispatchQueue.main.async {
                 self.UpdateStocks()
@@ -113,9 +116,8 @@ extension ViewController: UITableViewDelegate{
         
         vc.UpdateLabel = {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7){
-                vc.label.text = ("The current stock price for " + vc.stockSym + " is $" + String(self.currentPriceView)) //fix needed due to not fitting in the label possible fix is resizeing in main storyboard
-                // vc.label.text = (vc.stockSym + " " + String(self.currentPriceView))
-                print("curprice is currently \(self.currentPriceView)")
+                vc.label.text = ("The current stock price for " + vc.stockSym + " is $" + String(vc.CurPrice!))
+                print("curprice is currently \(vc.CurPrice)")
             }
             
         }
@@ -154,7 +156,8 @@ extension ViewController: UITableViewDataSource{
         var CurVal: Double = self.currentPriceView// has the value of the previous stock
         
         let headers = [
-            "x-rapidapi-key": "136911ffb3msh69c6efb713e8d01p16ecf6jsnb0202d799a9f",
+            "x-rapidapi-key": "1529265bf5mshfd12832f51f908dp16ebb4jsne36b181d2338",
+            //Bryans API KEY"x-rapidapi-key": "136911ffb3msh69c6efb713e8d01p16ecf6jsnb0202d799a9f",
             "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
             
         ]
@@ -219,10 +222,14 @@ extension ViewController: UITableViewDataSource{
     
     func GetStockValueforStockSym(stockSymbolTemp :String) -> Double//change the variable name after
     {
-        var CurVal: Double = 1.0// has the value of the previous stock
+        if(debugmodeFlag){
+            return Double.random(in: 5.0...1000.0)
+        }
+        var CurVal: Double = -6.2// has the value of the previous stock
         
         let headers = [
-            "x-rapidapi-key": "136911ffb3msh69c6efb713e8d01p16ecf6jsnb0202d799a9f",
+            "x-rapidapi-key": "1529265bf5mshfd12832f51f908dp16ebb4jsne36b181d2338",
+            //Bryans Key "x-rapidapi-key": "136911ffb3msh69c6efb713e8d01p16ecf6jsnb0202d799a9f",
             "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
             
         ]
