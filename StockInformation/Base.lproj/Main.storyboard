@@ -63,6 +63,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uMU-zJ-1F0">
+                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="Rld-eJ-ymd">
+                            <connections>
+                                <action selector="refreshPortfolioStocks" destination="BYZ-38-t0r" id="YLv-fJ-13X"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="ADD" id="8aJ-pb-FgU">
                             <connections>
                                 <action selector="didTouchApp" destination="BYZ-38-t0r" id="lOg-KT-bsA"/>
