@@ -16,6 +16,7 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
     var stockSym1 =  [String]()
     let debugmodeFlag = false
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         field.delegate = self
@@ -47,6 +48,7 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
                 let newcount = count+1;
                 UserDefaults().setValue(newcount, forKey: "count")
                 UserDefaults().setValue(StockSym.uppercased(), forKey:"stock_\(newcount)")
+                UserDefaults().setValue(0.0, forKey:"\(StockSym.uppercased())_Count")
                 update?()
                 navigationController?.popViewController(animated: true)
             }
@@ -72,7 +74,8 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
         }
     
 
-}
+    }
+    
     func GetStockValueforStockSym(stockSymbolTemp :String) -> Double//change the variable name after
     {
         if(debugmodeFlag){
