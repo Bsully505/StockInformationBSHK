@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     
     
     override func viewDidLoad() {
+        GetStockInfoforStockSym(stockSymbolTemp: "Tsla")
         super.viewDidLoad()
         self.title = "Stocks"
         
@@ -59,7 +60,7 @@ class ViewController: UIViewController {
         tableView.reloadData()
     }
     func UpdateStocks(){
-       // perform (#selector(authenticate), with: nil, afterDelay: 100)
+        // perform (#selector(authenticate), with: nil, afterDelay: 100)
         stockSymbols.removeAll()
         let defaults = UserDefaults.standard
         guard let count = defaults.value(forKey: "count") as? Int else{
@@ -102,7 +103,7 @@ extension ViewController: UITableViewDelegate{
         
         let vc = storyboard?.instantiateViewController(identifier: "StockSymbol") as! StockViewController
         
-       
+        
         vc.title = "Stock Information"
         vc.stockSym = stockSymbols[indexPath.row]
         vc.curPos = indexPath.row as Int
@@ -128,13 +129,13 @@ extension ViewController: UITableViewDelegate{
     
 }
 class MyCell: UITableViewCell {
-
+    
     @IBOutlet weak var label1: UILabel!
-
+    
     @IBOutlet weak var label2: UILabel!
     
-   
-
+    
+    
 }
 extension ViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -262,10 +263,10 @@ extension ViewController: UITableViewDataSource{
                                         CurVal = cpv
                                         semaphore.signal()
                                         
-                                                                                
+                                        
                                     } else {
                                         self.currentPriceView = -1.0
-                                       
+                                        
                                     }
                                 }
                             }
@@ -294,7 +295,107 @@ extension ViewController: UITableViewDataSource{
         return CurVal
         
     }
- 
+    func GetStockInfoforStockSym(stockSymbolTemp :String) -> Double//change the variable name after
+    {
+        //        if(debugmodeFlag){
+        //            return Double.random(in: 5.0...1000.0)
+        //        }
+        var CurVal: Double = -6.2// has the value of the previous stock
+        
+        let headers = [
+            "x-rapidapi-key": "1529265bf5mshfd12832f51f908dp16ebb4jsne36b181d2338",
+            //Bryans Key "x-rapidapi-key": "136911ffb3msh69c6efb713e8d01p16ecf6jsnb0202d799a9f",
+            "x-rapidapi-host": "yahoo-finance-low-latency.p.rapidapi.com",
+            
+        ]
+        let beginningURLString = "https://yahoo-finance-low-latency.p.rapidapi.com/v6/finance/quote?symbols=";
+        let stockToken = stockSymbolTemp
+        // let EndURL =  "?interval=1m&range=1d"
+        let realURL = beginningURLString + stockToken //+ EndURL
+        let request = NSMutableURLRequest(url: NSURL(string: realURL)! as URL,
+                                          cachePolicy: .useProtocolCachePolicy,
+                                          timeoutInterval: 20.0)
+        request.httpMethod = "GET"
+        request.allHTTPHeaderFields = headers
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+            
+            if (error != nil) {
+                print(error as Any)
+            } else {
+                do {
+                    
+                    if let dataDictionary = try JSONSerialization.jsonObject(with: data! as Data, options:[.allowFragments]) as? NSDictionary {
+                        if let notchart = dataDictionary["quoteResponse"]! as? NSDictionary{
+                            if let results = notchart["result"] as? [[String:Any]]{//insert here
+                                if let compName = results[0]["longName"] as? String{
+                                    //if let cpv = (result["regularMarketPrice"] as? Double){
+                                    //self.currentPriceView = cpv
+                                    print("company Name is \(compName)")
+                                    //CurVal = cpv
+                                    semaphore.signal()
+                                    
+                                    
+                                    //                                    } else {
+                                    //                                        self.currentPriceView = -1.0
+                                    //
+                                    //                                    }
+                                } else {
+                                print("Company name not working")
+                                }
+                                if let compCurrency = results[0]["currency"] as? String{
+                                    print("company currency is \(compCurrency)")
+                                    semaphore.signal()
+                                }
+                                if let comp52high = results[0]["fiftyTwoWeekHigh"] as? Double{
+                                    print("company 52 week high is \(comp52high)")
+                                    semaphore.signal()
+                                }
+                                if let comp52low = results[0]["fiftyTwoWeekLow"] as? Double{
+                                    print("company 52 week low is \(comp52low)")
+                                    semaphore.signal()
+                                }
+                                if let compDayhigh = results[0]["regularMarketDayHigh"] as? Double{
+                                    print("company day high is \(compDayhigh)")
+                                    semaphore.signal()
+                                }
+                                if let compDaylow = results[0]["regularMarketDayLow"] as? Double{
+                                    print("company day low is \(compDaylow)")
+                                    semaphore.signal()
+                                }
+                                if let compPrevClose = results[0]["regularMarketPreviousClose"] as? Double{
+                                    print("company Previous Closing price is \(compPrevClose)")
+                                    semaphore.signal()
+                                }
+                            }
+                            else{
+                                //this is where the function goes when the ticket is not an actual stock symbol aka url no good
+                                print("still no good")
+                            }
+                        }
+                        else{
+                            print("the NSDictionary did not work ")
+                        }
+                    }
+                    semaphore.signal()
+                    
+                }
+                catch let error as NSError {
+                    print("Error = \(error.localizedDescription)")
+                    
+                }
+            }
+            
+        })
+        
+        dataTask.resume()
+        semaphore.wait()
+        return CurVal
+        
+    }
+    
     
     
 }
