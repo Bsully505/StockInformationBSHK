@@ -78,8 +78,9 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func TestStock(){//this is where you call the funtion and update the label 
-        let StockSymbol = field.text
-        StockInfo.text = " Enter Stock Info HERE \(StockSymbol)"
+        let StockSymbol = field.text!
+        let StockID = ViewController().GetStockInfoforStockSym(stockSymbolTemp: StockSymbol)
+        StockInfo.text = " Company Name: \(StockID[0]) \n Currency: \(StockID[1]) \n 52 week High/Low: \(StockID[2])/\(StockID[3])"
     }
     
     func GetStockValueforStockSym(stockSymbolTemp :String) -> Double//change the variable name after

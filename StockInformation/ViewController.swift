@@ -296,12 +296,12 @@ extension ViewController: UITableViewDataSource{
         return CurVal
         
     }
-    func GetStockInfoforStockSym(stockSymbolTemp :String) -> Double//change the variable name after
+    func GetStockInfoforStockSym(stockSymbolTemp :String) -> [String]//change the variable name after
     {
         //        if(debugmodeFlag){
         //            return Double.random(in: 5.0...1000.0)
         //        }
-        var CurVal: Double = -6.2// has the value of the previous stock
+        var CurVal: [String] = []// has the value of the previous stock
         
         let headers = [
             "x-rapidapi-key": "1529265bf5mshfd12832f51f908dp16ebb4jsne36b181d2338",
@@ -335,8 +335,8 @@ extension ViewController: UITableViewDataSource{
                                     //if let cpv = (result["regularMarketPrice"] as? Double){
                                     //self.currentPriceView = cpv
                                     print("company Name is \(compName)")
-                                    //CurVal = cpv
-                                    semaphore.signal()
+                                    CurVal.append(String(compName))
+
                                     
                                     
                                     //                                    } else {
@@ -348,28 +348,38 @@ extension ViewController: UITableViewDataSource{
                                 }
                                 if let compCurrency = results[0]["currency"] as? String{
                                     print("company currency is \(compCurrency)")
-                                    semaphore.signal()
+                                    CurVal.append(compCurrency)
+                                    //semaphore.signal()
                                 }
                                 if let comp52high = results[0]["fiftyTwoWeekHigh"] as? Double{
                                     print("company 52 week high is \(comp52high)")
-                                    semaphore.signal()
+                                    //semaphore.signal()
+                                    CurVal.append(String(comp52high))
                                 }
                                 if let comp52low = results[0]["fiftyTwoWeekLow"] as? Double{
                                     print("company 52 week low is \(comp52low)")
-                                    semaphore.signal()
+                                    CurVal.append(String(comp52low))
+
+                                    //semaphore.signal()
                                 }
                                 if let compDayhigh = results[0]["regularMarketDayHigh"] as? Double{
                                     print("company day high is \(compDayhigh)")
-                                    semaphore.signal()
+                                    //semaphore.signal()
+                                    CurVal.append(String(compDayhigh))
+
                                 }
                                 if let compDaylow = results[0]["regularMarketDayLow"] as? Double{
                                     print("company day low is \(compDaylow)")
-                                    semaphore.signal()
+                                    CurVal.append(String(compDaylow))
+                                    //semaphore.signal()
                                 }
                                 if let compPrevClose = results[0]["regularMarketPreviousClose"] as? Double{
                                     print("company Previous Closing price is \(compPrevClose)")
-                                    semaphore.signal()
+                                    //semaphore.signal()
+                                    CurVal.append(String(compPrevClose))
+
                                 }
+                                semaphore.signal()
                             }
                             else{
                                 //this is where the function goes when the ticket is not an actual stock symbol aka url no good
