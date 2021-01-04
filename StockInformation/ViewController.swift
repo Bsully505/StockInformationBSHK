@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     
     
     override func viewDidLoad() {
-        GetStockInfoforStockSym(stockSymbolTemp: "Tsla")
+        //GetStockInfoforStockSym(stockSymbolTemp: "Tsla")
         super.viewDidLoad()
         self.title = "Stocks"
         
@@ -108,7 +108,7 @@ extension ViewController: UITableViewDelegate{
         vc.stockSym = stockSymbols[indexPath.row]
         vc.curPos = indexPath.row as Int
         vc.CurPrice = self.GetStockValueforStockSym(stockSymbolTemp: vc.stockSym)
-       // vc.CounterLabel.text = String( UserDefaults().value(forKey: "\(vc.stockSym)_Count"))
+        // vc.CounterLabel.text = String( UserDefaults().value(forKey: "\(vc.stockSym)_Count"))
         vc.update = {
             DispatchQueue.main.async {
                 self.UpdateStocks()
@@ -331,70 +331,80 @@ extension ViewController: UITableViewDataSource{
                     if let dataDictionary = try JSONSerialization.jsonObject(with: data! as Data, options:[.allowFragments]) as? NSDictionary {
                         if let notchart = dataDictionary["quoteResponse"]! as? NSDictionary{
                             if let results = notchart["result"] as? [[String:Any]]{//insert here
-                                if let compName = results[0]["longName"] as? String{
-                                    //if let cpv = (result["regularMarketPrice"] as? Double){
-                                    //self.currentPriceView = cpv
-                                    print("company Name is \(compName)")
-                                    CurVal.append(String(compName))
-
+                                print(results)
+                                if !results.isEmpty {
+                                    if let compName = results[0]["longName"] as? String{
+                                        //if let cpv = (result["regularMarketPrice"] as? Double){
+                                        //self.currentPriceView = cpv
+                                        print("company Name is \(compName)")
+                                        CurVal.append(String(compName))
+                                        
+                                        
+                                        
+                                        //                                    } else {
+                                        //                                        self.currentPriceView = -1.0
+                                        //
+                                        //                                    }
+                                    } else {
+                                        print("Company name not working")
+                                    }
                                     
-                                    
-                                    //                                    } else {
-                                    //                                        self.currentPriceView = -1.0
-                                    //
-                                    //                                    }
-                                } else {
-                                print("Company name not working")
+                                    if let compCurrency = results[0]["currency"] as? String{
+                                        print("company currency is \(compCurrency)")
+                                        CurVal.append(compCurrency)
+                                        //semaphore.signal()
+                                    }
+                                    if let comp52high = results[0]["fiftyTwoWeekHigh"] as? Double{
+                                        print("company 52 week high is \(comp52high)")
+                                        //semaphore.signal()
+                                        CurVal.append(String(comp52high))
+                                    }
+                                    if let comp52low = results[0]["fiftyTwoWeekLow"] as? Double{
+                                        print("company 52 week low is \(comp52low)")
+                                        CurVal.append(String(comp52low))
+                                        
+                                        //semaphore.signal()
+                                    }
+                                    if let compDayhigh = results[0]["regularMarketDayHigh"] as? Double{
+                                        print("company day high is \(compDayhigh)")
+                                        //semaphore.signal()
+                                        CurVal.append(String(compDayhigh))
+                                        
+                                    }
+                                    if let compDaylow = results[0]["regularMarketDayLow"] as? Double{
+                                        print("company day low is \(compDaylow)")
+                                        CurVal.append(String(compDaylow))
+                                        //semaphore.signal()
+                                    }
+                                    if let compPrevClose = results[0]["regularMarketPreviousClose"] as? Double{
+                                        print("company Previous Closing price is \(compPrevClose)")
+                                        //semaphore.signal()
+                                        CurVal.append(String(compPrevClose))
+                                        
+                                    }
+                                    semaphore.signal()
                                 }
-                                if let compCurrency = results[0]["currency"] as? String{
-                                    print("company currency is \(compCurrency)")
-                                    CurVal.append(compCurrency)
-                                    //semaphore.signal()
-                                }
-                                if let comp52high = results[0]["fiftyTwoWeekHigh"] as? Double{
-                                    print("company 52 week high is \(comp52high)")
-                                    //semaphore.signal()
-                                    CurVal.append(String(comp52high))
-                                }
-                                if let comp52low = results[0]["fiftyTwoWeekLow"] as? Double{
-                                    print("company 52 week low is \(comp52low)")
-                                    CurVal.append(String(comp52low))
-
-                                    //semaphore.signal()
-                                }
-                                if let compDayhigh = results[0]["regularMarketDayHigh"] as? Double{
-                                    print("company day high is \(compDayhigh)")
-                                    //semaphore.signal()
-                                    CurVal.append(String(compDayhigh))
-
-                                }
-                                if let compDaylow = results[0]["regularMarketDayLow"] as? Double{
-                                    print("company day low is \(compDaylow)")
-                                    CurVal.append(String(compDaylow))
-                                    //semaphore.signal()
-                                }
-                                if let compPrevClose = results[0]["regularMarketPreviousClose"] as? Double{
-                                    print("company Previous Closing price is \(compPrevClose)")
-                                    //semaphore.signal()
-                                    CurVal.append(String(compPrevClose))
-
-                                }
-                                semaphore.signal()
+                                else{
+                                    //this is where the function goes when the ticket is not an actual stock symbol aka url no good
+                                    print("still no good")
+                                       CurVal.append("NOT A STOCK SYMBOL");
+                                        print("NOT A STOCK SYMBOL ")
+                                   
+                                } 
                             }
                             else{
-                                //this is where the function goes when the ticket is not an actual stock symbol aka url no good
-                                print("still no good")
+                                print("the NSDictionary did not work ")
                             }
+                        } else {
+                            CurVal.append("Stock Doesn't exist please check the spelling")
                         }
-                        else{
-                            print("the NSDictionary did not work ")
-                        }
+                        semaphore.signal()
+                        
                     }
-                    semaphore.signal()
-                    
                 }
                 catch let error as NSError {
                     print("Error = \(error.localizedDescription)")
+                    
                     
                 }
             }
