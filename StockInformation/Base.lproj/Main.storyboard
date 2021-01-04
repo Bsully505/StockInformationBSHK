@@ -165,7 +165,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0CD-PN-eiK">
-                                <rect key="frame" x="0.0" y="391" width="414" height="256"/>
+                                <rect key="frame" x="0.0" y="408" width="414" height="138"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -199,9 +199,9 @@
                                 <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WEA-0J-KM0">
-                                <rect key="frame" x="326" y="297" width="32" height="30"/>
+                                <rect key="frame" x="327" y="297" width="31" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="ADD"/>
+                                <state key="normal" title="BUY"/>
                                 <connections>
                                     <action selector="BuyStock" destination="2v0-P2-diC" eventType="touchDown" id="w3t-rQ-G4o"/>
                                 </connections>
@@ -210,7 +210,17 @@
                                 <rect key="frame" x="61" y="297" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Sell"/>
+                                <connections>
+                                    <action selector="SellStock" destination="2v0-P2-diC" eventType="touchDown" id="1GS-zK-v2k"/>
+                                </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5R9-RF-GtE">
+                                <rect key="frame" x="21" y="574" width="374" height="237"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="secondarySystemBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ll9-8N-EAM"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -220,6 +230,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="AVGReturn" destination="5R9-RF-GtE" id="tO9-95-pfZ"/>
                         <outlet property="ChangeStockAmt" destination="F6t-Lp-byL" id="wnP-MQ-5U4"/>
                         <outlet property="CounterLabel" destination="1vY-LB-sCd" id="9q8-qB-5U5"/>
                         <outlet property="StockCounter" destination="gDM-rx-bFd" id="Lej-3k-IX6"/>

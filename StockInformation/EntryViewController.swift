@@ -50,6 +50,7 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
                 UserDefaults().setValue(newcount, forKey: "count")
                 UserDefaults().setValue(StockSym.uppercased(), forKey:"stock_\(newcount)")
                 UserDefaults().setValue(0.0, forKey:"\(StockSym.uppercased())_Count")
+                UserDefaults().setValue(0.0,forKey: "\(StockSym.uppercased())_AvgPrice")
                 update?()
                 navigationController?.popViewController(animated: true)
             }

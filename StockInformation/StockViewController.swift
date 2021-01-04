@@ -13,6 +13,7 @@ class StockViewController: UIViewController {
     @IBOutlet var CounterLabel: UILabel!
     @IBOutlet var StockCounter: UIStepper!
     @IBOutlet var ChangeStockAmt: UITextField!
+    @IBOutlet var AVGReturn: UILabel!
     
     
     var stockSym: String!
@@ -32,6 +33,8 @@ class StockViewController: UIViewController {
         print("the stock counter value is \(StockCounter.value)")
         currStockAmt = StockCounter.value//I am possibly using to many variables on these three lines above might have to remove some
         CounterLabel.text = "You own \(currStockAmt ?? 0.0) of shares press the plus to buy more and minus to sell"
+        
+        AVGReturn.text = "Your average stock price is \(UserDefaults().value(forKey: "\(stockSym!)_AvgPrice")!)"
         //UpdateLabel?()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(DeleteStock))
     }
@@ -48,7 +51,7 @@ class StockViewController: UIViewController {
         let temp = defaults.value(forKey: "stock_\(curPos!+1)")
         defaults.setValue(0.0,forKey: "\(temp!)_Count")
         defaults.setValue(nil,forKey: "stock_\(curPos!+1)");
-        
+        defaults.setValue(0.0, forKey: "\(temp!)_AvgPrice")
         for x in curPos!+1..<count{
             defaults.setValue(defaults.value(forKey:"stock_\(x+1)"),forKey: "stock_\(x)")
             
@@ -60,11 +63,21 @@ class StockViewController: UIViewController {
    
     @IBAction func removeStockAmt(){//bad naming convension we should name Change stock Amt
         if StockCounter.value >= 0{
+            let oldStockAmt = currStockAmt
             currStockAmt = StockCounter.value
             let temp = UserDefaults().value(forKey: "stock_\(curPos!+1)")
             //instead of using temp i can possibly use StockSym!
             UserDefaults().setValue(currStockAmt,forKey: "\(temp!)_Count")
             print(currStockAmt!)
+            if oldStockAmt! < currStockAmt!{
+            let oldAMT = oldStockAmt! as! Double * (UserDefaults().value(forKey: "\(stockSym!)_AvgPrice") as! Double)
+            let NewAmt = (currStockAmt - oldStockAmt!) * (CurPrice!)
+            let NewAVG = (oldAMT + NewAmt) / currStockAmt
+            UserDefaults().setValue(NewAVG ,forKey: "\(stockSym!)_AvgPrice")
+            AVGReturn.text = "Your average stock price is \(UserDefaults().value(forKey: "\(stockSym!)_AvgPrice")!)"
+            print("the new AVG is \(NewAVG)")
+            }
+            
         }
         CounterLabel.text = "You own \(currStockAmt ?? 0.0) of shares press the plus to buy more and minus to sell"
         
@@ -73,14 +86,55 @@ class StockViewController: UIViewController {
     @IBAction func BuyStock(){
         if let amount = Double(ChangeStockAmt.text!) as? Double{
             //know we know that the person had entered the right amount and we can also possibly add a if statement to see if the person has enouph money to buy this amount
-            print("WE MADE IT ")
-            UserDefaults().setValue(currStockAmt,forKey: "\(stockSym!)_Count")
+            let temp = currStockAmt
+            currStockAmt = currStockAmt + amount
+            UserDefaults().setValue(currStockAmt ,forKey: "\(stockSym!)_Count")
+            StockCounter.value = UserDefaults().value(forKey: "\(stockSym!)_Count") as! Double
+            //name for the user defaults() key
+            if  UserDefaults().value(forKey: "\(stockSym!)_AvgPrice") as! Double == 0.0 {
+            UserDefaults().setValue(CurPrice ,forKey: "\(stockSym!)_AvgPrice")
+                AVGReturn.text = "Your average stock price is \(UserDefaults().value(forKey: "\(stockSym!)_AvgPrice")!)"
+            }
+            else{
+                // create this into a function possibly
+                let oldAMT = temp as! Double * (UserDefaults().value(forKey: "\(stockSym!)_AvgPrice") as! Double)
+                let NewAmt = amount * (CurPrice as! Double)
+                let NewAVG = (oldAMT + NewAmt) / currStockAmt
+                UserDefaults().setValue(NewAVG ,forKey: "\(stockSym!)_AvgPrice")
+                AVGReturn.text = "Your average stock price is \(UserDefaults().value(forKey: "\(stockSym!)_AvgPrice")!)"
+                print("the new AVG is \(NewAVG)")
+                
+            }
+            CounterLabel.text = "You own \(currStockAmt ?? 0.0) of shares press the plus to buy more and minus to sell"
             
         }
         else{
             print("we have a problem")
         }
     }
+    
+    @IBAction func SellStock(){
+        if let amount = Double(ChangeStockAmt.text!) as? Double{
+            //know we know that the person had entered the right amount and we can also possibly add a if statement to see if the person has enouph money to buy this amount
+            let temp = currStockAmt - amount
+            if temp >= 0 {
+                if temp == 0.0{
+                    UserDefaults().setValue(0.0 ,forKey: "\(stockSym!)_AvgPrice")
+                    AVGReturn.text = "Your average stock price is \(UserDefaults().value(forKey: "\(stockSym!)_AvgPrice")!)"
+                }
+                
+            currStockAmt = temp 
+            UserDefaults().setValue(currStockAmt ,forKey: "\(stockSym!)_Count")
+            StockCounter.value = UserDefaults().value(forKey: "\(stockSym!)_Count") as! Double
+            CounterLabel.text = "You own \(currStockAmt ?? 0.0) of shares press the plus to buy more and minus to sell"
+                
+            }
+        }
+        else{
+            print("we have a problem")
+        }
+    }
+    
     
     // ideal data storage for users[bryan sullivan,800,[acb,7,08.36][tesla,2,146.28]]
     //
