@@ -346,6 +346,7 @@ extension ViewController: UITableViewDataSource{
                                         //
                                         //                                    }
                                     } else {
+                                        CurVal.append("NOT A STOCK SYMBOL");
                                         print("Company name not working")
                                     }
                                     
