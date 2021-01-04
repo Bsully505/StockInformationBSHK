@@ -84,6 +84,7 @@ class StockViewController: UIViewController {
     }
     
     @IBAction func BuyStock(){
+        self.view.endEditing(true)
         if let amount = Double(ChangeStockAmt.text!) as? Double{
             //know we know that the person had entered the right amount and we can also possibly add a if statement to see if the person has enouph money to buy this amount
             let temp = currStockAmt
@@ -114,6 +115,7 @@ class StockViewController: UIViewController {
     }
     
     @IBAction func SellStock(){
+        self.view.endEditing(true)
         if let amount = Double(ChangeStockAmt.text!) as? Double{
             //know we know that the person had entered the right amount and we can also possibly add a if statement to see if the person has enouph money to buy this amount
             let temp = currStockAmt - amount
@@ -135,7 +137,9 @@ class StockViewController: UIViewController {
         }
     }
     
-    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
     // ideal data storage for users[bryan sullivan,800,[acb,7,08.36][tesla,2,146.28]]
     //
 

@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     
     var stockSymbols = [String]()
     var currentPriceView: Double = 1.5
-    let debugmodeFlag: Bool = true     //allows to togle getting real api requests
+    let debugmodeFlag: Bool = false     //allows to togle getting real api requests
     
     
     override func viewDidLoad() {

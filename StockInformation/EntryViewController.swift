@@ -82,6 +82,7 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func TestStock(){//this is where you call the funtion and update the label
+        self.view.endEditing(true)
         StockInfo.textColor = UIColor.systemGreen
         let StockSymbol = field.text!
         let StockID = ViewController().GetStockInfoforStockSym(stockSymbolTemp: StockSymbol)
@@ -167,6 +168,9 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
         semaphore.wait()
         return CurVal
         
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
 
 }
