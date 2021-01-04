@@ -25,8 +25,9 @@ ideas:
 
 Working on 
 
-1) create a portfolio file which would be able to keep track of multiple stocks and how much the total price is. -Bryan
-2) adding a test stock symbol to see the stock symbol's company name and such - Henok 
+1) Having the portfolio show more data when on the Show Stock Screen -Bryan
+2) Removing the keyboard problem and researching graph- Henok 
+
 
 
 
