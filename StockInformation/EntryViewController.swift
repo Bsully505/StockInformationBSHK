@@ -77,10 +77,16 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
 
     }
     
-    @IBAction func TestStock(){//this is where you call the funtion and update the label 
+    @IBAction func TestStock(){//this is where you call the funtion and update the label
+        StockInfo.textColor = UIColor.systemGreen
         let StockSymbol = field.text!
         let StockID = ViewController().GetStockInfoforStockSym(stockSymbolTemp: StockSymbol)
-        StockInfo.text = " Company Name: \(StockID[0]) \n Currency: \(StockID[1]) \n 52 week High/Low: \(StockID[2])/\(StockID[3])"
+        if StockID.count > 1 {
+        StockInfo.text = " Company Name: \(StockID[0]) \n Currency: \(StockID[1]) \n Prev Closing Price: \(StockID[6]) \n 52 WK High/Low: \(StockID[2])/\(StockID[3]) \n Day High/Low: \(StockID[4])/\(StockID[5]) "
+        } else {
+            StockInfo.textColor = UIColor.red
+            StockInfo.text = " \(StockID[0])"
+        }
     }
     
     func GetStockValueforStockSym(stockSymbolTemp :String) -> Double//change the variable name after
