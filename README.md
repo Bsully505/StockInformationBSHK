@@ -4,15 +4,17 @@ App for updating a users stocks to see their current amount of stock and the abi
 
 What we still have to do:
 
-3) fix resizing the labels to fit the text aka pretty print
-5) try and find proper data types to contain the data of a stock aka an array for the values for the past day which would be used to create a graph 
-6) Try and optimize calls possibly using the comparison 
-7)pretty print the layout of the app which would make it look more professional 
-
-9) be able to get an image of a chart and then just show the image if not we would have to be able to grab the data and then code the chart itself and that would be time consuming 
+1) fix resizing the labels to fit the text aka pretty print
+2) Try and optimize calls possibly using the comparison 
+3) pretty print the layout of the app which would make it look more professional 
+4) when in debugmode allow for the print statements else do not include print statements
+5) be able to get an image of a chart and then just show the image if not we would have to be able to grab the data and then code the chart itself and that would be time consuming 
+6) Fix the loading screen picture and the app icon using the "Company Logo"
 
 important:
-1)
+1)when running on an iphone the keyboard after typing in the Stock Symbol does not go away not allowing the user to see the labels/output.
+2)going through the code and making sure we are utilizing functions and if code is being repeated turn it into a function
+3) create a graph in stock information
 
 
 ideas:
@@ -43,3 +45,4 @@ what we finished
 2) create a user responce which would tell the user that the stock symbol he/she is tring to use is not a valid symbol 
 8) being able to select a Refresh rate and then have the price of the stock on the right of the stock symbol
 Weds 30 ) errorhandeling for stock symbol entering, loading screen, getting data on stock which required a new function, started portfolio for the user. 
+January 4) 
