@@ -56,6 +56,9 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
             else{
                 print("ERROR CODE: \(errorHandelerVal)")
                 //error handeling
+                if errorHandelerVal == -1.0{
+                    label.text = "The Stock Symbol that you have enterned is not a real Symbol please make sure you spelled the stock symbol correctly"
+                }
                 if errorHandelerVal == -1.8{
                     label.text = "The Stock Symbol that you have enterned is not a real Symbol please make sure you spelled the stock symbol correctly"
                 }
