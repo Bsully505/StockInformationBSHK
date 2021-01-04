@@ -1,27 +1,27 @@
 # StockInformationBSHK
 App for updating a users stocks to see their current amount of stock and the ability to check the cost of other stocks. Written in Swift. Authors, Bryan Sullivan, Henok Ketsela start date of project was december 18th, 2020
+Key -1 = ideas that we do not believe to work but want to save the idea 
 
 
 What we still have to do:
 
 1) fix resizing the labels to fit the text aka pretty print
-2) Try and optimize calls possibly using the comparison 
+2) Try and optimize calls 
 3) pretty print the layout of the app which would make it look more professional 
-4) when in debugmode allow for the print statements else do not include print statements
-5) be able to get an image of a chart and then just show the image if not we would have to be able to grab the data and then code the chart itself and that would be time consuming 
-6) Fix the loading screen picture and the app icon using the "Company Logo"
+4) be able to get an image of a chart and then just show the image if not we would have to be able to grab the data and then code the chart itself and that would be time consuming aka try and make a graph
+5) Fix the loading screen picture and the app icon using the "Company Logo"
 
 important:
 
-1) when running on an iphone the keyboard after typing in the Stock Symbol does not go away not allowing the user to see the labels/output.
-2) going through the code and making sure we are utilizing functions and if code is being repeated turn it into a function
-3) create a graph in stock information
+1) going through the code and making sure we are utilizing functions and if code is being repeated turn it into a function also adding comments
+2) create a graph in stock information
 
 
 ideas:
-1) Think of what we can add to the page after selecting the stock aka more data, Graph, 52 week high and low, closing price from previous day
-2) create a loading screen that looks interesting 
-3) comparing stocks which would allow to see side by side a stock and its data aka graph, 52 high, 52 low etc...
+1) Think of what we can add to the page after selecting the stock aka more data, Graph, 52 week high and low, closing price from previous day maybe using scrollable page with the cost of another call 
+2) -1: comparing stocks which would allow to see side by side a stock and its data aka graph, 52 high, 52 low etc...
+3) when in debugmode allow for the print statements else do not include print statements
+
 
 Working on 
 
@@ -29,7 +29,10 @@ Working on
 2) Removing the keyboard problem and researching graph- Henok 
 
 
+Bugs:
 
+1) hitting info with nothing in the text box causes crash. plan on working on Jan 5th ***********
+2) label not showing up on iphone 8 for the current amount of average cost for the share. 
 
 researching
 
@@ -50,4 +53,4 @@ what we finished
 6) create a user responce which would tell the user that the stock symbol he/she is tring to use is not a valid symbol 
 7) being able to select a Refresh rate and then have the price of the stock on the right of the stock symbol
 8) Weds 30: errorhandeling for stock symbol entering, loading screen, getting data on stock which required a new function, started portfolio for the user. 
-9) January 4: 
+9) January 4: 1) when running on an iphone the keyboard after typing in the Stock Symbol does not go away not allowing the user to see the labels/output.-Henok, added portfolio data including how many shares of a stock the user has and the ability to buy or sell. - Bryan , Fixed Keyboard bug - Henok, 
