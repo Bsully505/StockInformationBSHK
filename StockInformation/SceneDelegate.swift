@@ -52,27 +52,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
 }
         
-        /*
-            let url = URL(string: "https://yahoo-finance-low-latency.p.rapidapi.com/v8/finance/chart/AAPL?interval=1d&range=1d&lang=en&rapidapi-key=136911ffb3msh69c6efb713e8d01p16ecf6jsnb0202d799a9f")!
-           // let url = URL(string: "https://www.google.com/search?q=peace")!
-            //let url = URL(string:"https://cloud.iexapis.com/stable/stock/APPL/quote?token=pk_9de1eaea0bd444cdbea4bde246826f92")!
-            //url.httpMethod = "GET"
-        
-            let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-                
-                    if error != nil || data == nil {
-                        print("Client error!")
-                        return
-                    }
-                    guard let response = response as? HTTPURLResponse else {
-                        print("Server error!")
-                        return
-                    }
-                    print("The Response is : ",response)
-                }
-                task.resume()
-        }
-
-
-}
-*/
+       
