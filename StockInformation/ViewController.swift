@@ -33,7 +33,7 @@ class ViewController: UIViewController {
             UserDefaults().set(0, forKey: "count")
         }
         
-        let defaults = UserDefaults.standard
+        
         //self.MasterReset() //only used when wanting to erase all data on the phone
         self.UpdateStocks()
         // Do any additional setup after loading the view.
@@ -119,7 +119,7 @@ extension ViewController: UITableViewDelegate{
         vc.UpdateLabel = {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7){
                 vc.label.text = ("The current stock price for " + vc.stockSym + " is $" + String(vc.CurPrice!))
-                print("curprice is currently \(vc.CurPrice)")
+                print("curprice is currently \(String(describing: vc.CurPrice))")
             }
             
         }
@@ -155,7 +155,7 @@ extension ViewController: UITableViewDataSource{
     
     func GetStockValueforStockSym(stockSymbolTemp :String, VC: StockViewController ) -> Double//change the variable name after
     {
-        var CurVal: Double = self.currentPriceView// has the value of the previous stock
+        let CurVal: Double = self.currentPriceView// has the value of the previous stock
         
         let headers = [
             "x-rapidapi-key": "1529265bf5mshfd12832f51f908dp16ebb4jsne36b181d2338",
@@ -225,7 +225,8 @@ extension ViewController: UITableViewDataSource{
     func GetStockValueforStockSym(stockSymbolTemp :String) -> Double//change the variable name after
     {
         if(debugmodeFlag){
-            return Double.random(in: 5.0...1000.0)
+            let x = Double.random(in: 5.0...1000.0)
+            return Double(round(x*100)/100)
         }
         var CurVal: Double = -6.2// has the value of the previous stock
         

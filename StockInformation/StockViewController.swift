@@ -33,9 +33,10 @@ class StockViewController: UIViewController {
         print("the stock counter value is \(StockCounter.value)")
         currStockAmt = StockCounter.value//I am possibly using to many variables on these three lines above might have to remove some
         CounterLabel.text = "You own \(currStockAmt ?? 0.0) of shares press the plus to buy more and minus to sell"
+        let AvgP = UserDefaults().value(forKey: "\(stockSym!)_AvgPrice") as! Double
+        let totalReturn = (CurPrice! - AvgP) * currStockAmt
+        AVGReturn.text = "Your average stock price is \(UserDefaults().value(forKey: "\(stockSym!)_AvgPrice")!)\n Your total return is \(totalReturn)"
         
-        AVGReturn.text = "Your average stock price is \(UserDefaults().value(forKey: "\(stockSym!)_AvgPrice")!)"
-        //UpdateLabel?()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete", style: .done, target: self, action: #selector(DeleteStock))
     }
     
@@ -70,11 +71,15 @@ class StockViewController: UIViewController {
             UserDefaults().setValue(currStockAmt,forKey: "\(temp!)_Count")
             print(currStockAmt!)
             if oldStockAmt! < currStockAmt!{
-            let oldAMT = oldStockAmt! as! Double * (UserDefaults().value(forKey: "\(stockSym!)_AvgPrice") as! Double)
+                let oldAMT = oldStockAmt! * (UserDefaults().value(forKey: "\(stockSym!)_AvgPrice") as! Double)
             let NewAmt = (currStockAmt - oldStockAmt!) * (CurPrice!)
             let NewAVG = (oldAMT + NewAmt) / currStockAmt
             UserDefaults().setValue(NewAVG ,forKey: "\(stockSym!)_AvgPrice")
-            AVGReturn.text = "Your average stock price is \(UserDefaults().value(forKey: "\(stockSym!)_AvgPrice")!)"
+            let totalReturn = (CurPrice! - NewAVG) * CurPrice!
+            
+            
+            AVGReturn.text = "Your average stock price is \(UserDefaults().value(forKey: "\(stockSym!)_AvgPrice")!)\n Your total return is \(totalReturn)"
+                
             print("the new AVG is \(NewAVG)")
             }
             
@@ -85,21 +90,22 @@ class StockViewController: UIViewController {
     
     @IBAction func BuyStock(){
         self.view.endEditing(true)
-        if let amount = Double(ChangeStockAmt.text!) as? Double{
-            //know we know that the person had entered the right amount and we can also possibly add a if statement to see if the person has enouph money to buy this amount
+        if let amount = Double(ChangeStockAmt.text!){
+            //possibly test if user has current amount of cash > amount * curprice 
             let temp = currStockAmt
             currStockAmt = currStockAmt + amount
             UserDefaults().setValue(currStockAmt ,forKey: "\(stockSym!)_Count")
             StockCounter.value = UserDefaults().value(forKey: "\(stockSym!)_Count") as! Double
-            //name for the user defaults() key
+            
+            
             if  UserDefaults().value(forKey: "\(stockSym!)_AvgPrice") as! Double == 0.0 {
             UserDefaults().setValue(CurPrice ,forKey: "\(stockSym!)_AvgPrice")
                 AVGReturn.text = "Your average stock price is \(UserDefaults().value(forKey: "\(stockSym!)_AvgPrice")!)"
             }
             else{
                 // create this into a function possibly
-                let oldAMT = temp as! Double * (UserDefaults().value(forKey: "\(stockSym!)_AvgPrice") as! Double)
-                let NewAmt = amount * (CurPrice as! Double)
+                let oldAMT = temp! * (UserDefaults().value(forKey: "\(stockSym!)_AvgPrice") as! Double)
+                let NewAmt = amount * (CurPrice!)
                 let NewAVG = (oldAMT + NewAmt) / currStockAmt
                 UserDefaults().setValue(NewAVG ,forKey: "\(stockSym!)_AvgPrice")
                 AVGReturn.text = "Your average stock price is \(UserDefaults().value(forKey: "\(stockSym!)_AvgPrice")!)"
@@ -116,7 +122,7 @@ class StockViewController: UIViewController {
     
     @IBAction func SellStock(){
         self.view.endEditing(true)
-        if let amount = Double(ChangeStockAmt.text!) as? Double{
+        if let amount = Double(ChangeStockAmt.text!){
             //know we know that the person had entered the right amount and we can also possibly add a if statement to see if the person has enouph money to buy this amount
             let temp = currStockAmt - amount
             if temp >= 0 {

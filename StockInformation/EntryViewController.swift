@@ -120,7 +120,8 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
     func GetStockValueforStockSym(stockSymbolTemp :String) -> Double//change the variable name after
     {
         if(debugmodeFlag){
-            return Double.random(in: 5.0...1000.0)
+            let x = Double.random(in: 5.0...1000.0)
+            return Double(round(x*100)/100)
         }
         
 
