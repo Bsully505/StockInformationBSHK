@@ -8,7 +8,7 @@
 import UIKit
 
 class EntryViewController: UIViewController, UITextFieldDelegate {
-
+    
     @IBOutlet var field: UITextField! //This is the way the user inputs the added stock symbol
     @IBOutlet weak var label: UILabel!
     @IBOutlet var StockInfo: UILabel!
@@ -30,67 +30,90 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
         
         
         if stockSym1.contains(field.text!){
-        print("should return");
+            print("should return");
         }
         SaveStock()
         return true
     }
-
+    
     @objc func SaveStock(){
         guard let StockSym = field.text, !StockSym.isEmpty else{
             return
         }
+       
+
+        let set = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ")
+        if (StockSym.rangeOfCharacter(from: set.inverted) != nil) {
+            print("it comes here")
+            StockInfo.textColor = UIColor.red
+            StockInfo.text = "please only include letters, your input includes either whitespace or punctuation"
+            return
+        }
+        
         guard let count = UserDefaults().value(forKey: "count") as? Int else{
             return
         }
+        
         if !stockSym1.contains(field.text!.uppercased()){
             let errorHandelerVal = GetStockValueforStockSym(stockSymbolTemp: field.text!.uppercased())
-            if !(errorHandelerVal < 0.0){
-                let newcount = count+1;
-                UserDefaults().setValue(newcount, forKey: "count")
-                UserDefaults().setValue(StockSym.uppercased(), forKey:"stock_\(newcount)")
-                UserDefaults().setValue(0.0, forKey:"\(StockSym.uppercased())_Count")
-                UserDefaults().setValue(0.0,forKey: "\(StockSym.uppercased())_AvgPrice")
-                update?()
-                navigationController?.popViewController(animated: true)
-            }
-            else{
-                print("ERROR CODE: \(errorHandelerVal)")
-                //error handeling
-                if errorHandelerVal == -1.0{
-                    label.text = "The Stock Symbol that you have enterned is not a real Symbol please make sure you spelled the stock symbol correctly"
+           
+                if !(errorHandelerVal < 0.0){
+                    let newcount = count+1;
+                    UserDefaults().setValue(newcount, forKey: "count")
+                    UserDefaults().setValue(StockSym.uppercased(), forKey:"stock_\(newcount)")
+                    UserDefaults().setValue(0.0, forKey:"\(StockSym.uppercased())_Count")
+                    UserDefaults().setValue(0.0,forKey: "\(StockSym.uppercased())_AvgPrice")
+                    update?()
+                    navigationController?.popViewController(animated: true)
                 }
-                if errorHandelerVal == -1.8{
-                    label.text = "The Stock Symbol that you have enterned is not a real Symbol please make sure you spelled the stock symbol correctly"
-                }
+                else{
+                    print("ERROR CODE: \(errorHandelerVal)")
+                    //error handeling
+                    if errorHandelerVal == -1.0{
+                        label.text = "The Stock Symbol that you have enterned is not a real Symbol please make sure you spelled the stock symbol correctly"
+                    }
+                    if errorHandelerVal == -1.8{
+                        label.text = "The Stock Symbol that you have enterned is not a real Symbol please make sure you spelled the stock symbol correctly"
+                    }
+                    if errorHandelerVal == -1.6{
+                        print("error of non letters")
+                    }
                 
             }
-    }
+        }
         else{
             //this is where we can code up a label which would include text stating that no duplicate code can be made.
             if label.text == "result" {     // you should probably force everything to lowercase, to avoid wrong test
-                      label.text = "Correct"
-                } else {
-                      label.text = "Please do not include duplicates, \(StockSym) is \n already in your portfolio"
+                label.text = "Correct"
+            } else {
+                label.text = "Please do not include duplicates, \(StockSym) is \n already in your portfolio"
                 
-                }
+            }
             //create user input test case which states if the stock symbol exists 
             
         }
-    
-
+        
+        
     }
     
     @IBAction func TestStock(){//this is where you call the funtion and update the label
         self.view.endEditing(true)
         StockInfo.textColor = UIColor.systemGreen
         let StockSymbol = field.text!
-        let StockID = ViewController().GetStockInfoforStockSym(stockSymbolTemp: StockSymbol)
-        if StockID.count > 1 {
-        StockInfo.text = " Company Name: \(StockID[0]) \n Currency: \(StockID[1]) \n Prev Closing Price: \(StockID[6]) \n 52 WK High/Low: \(StockID[2])/\(StockID[3]) \n Day High/Low: \(StockID[4])/\(StockID[5]) "
-        } else {
+        let set = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ")
+        if (StockSymbol.rangeOfCharacter(from: set.inverted) != nil) {
             StockInfo.textColor = UIColor.red
-            StockInfo.text = " \(StockID[0])"
+            StockInfo.text = "please only include letters, your input includes either whitespace or punctuation"
+            
+        }
+        else{
+            let StockID = ViewController().GetStockInfoforStockSym(stockSymbolTemp: StockSymbol)
+            if StockID.count == 7 {
+                StockInfo.text = " Company Name: \(StockID[0]) \n Currency: \(StockID[1]) \n Prev Closing Price: \(StockID[6]) \n 52 WK High/Low: \(StockID[2])/\(StockID[3]) \n Day High/Low: \(StockID[4])/\(StockID[5]) "
+            } else {
+                StockInfo.textColor = UIColor.red
+                StockInfo.text = " \(StockID[0])"
+            }
         }
     }
     
@@ -99,6 +122,12 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
         if(debugmodeFlag){
             return Double.random(in: 5.0...1000.0)
         }
+        
+
+            let set = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ")
+            if (stockSymbolTemp.rangeOfCharacter(from: set.inverted) != nil) {
+                return -1.6
+            }
         var CurVal: Double = -6.2// use for error handeling or getting the proper value
         
         let headers = [
@@ -136,10 +165,10 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
                                         CurVal = cpv
                                         semaphore.signal()
                                         
-                                                                                
+                                        
                                     } else {
                                         CurVal = -1.0 //for bitcoin and such which we do not have the data for. More research is required.
-                                       
+                                        
                                     }
                                 }
                             }
@@ -172,5 +201,16 @@ class EntryViewController: UIViewController, UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-
+    
+//    func InputTester(input: String)-> Bool{
+//
+//        let set = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ")
+//        if !(input.rangeOfCharacter(from: set.inverted) != nil) {
+//            return true
+//        }
+//        else{
+//        return false
+//        }
+//    }
+    
 }
