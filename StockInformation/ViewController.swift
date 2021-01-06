@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     
     var stockSymbols = [String]()
     var currentPriceView: Double = 1.5
-    let debugmodeFlag: Bool = false     //allows to togle getting real api requests
+    let debugmodeFlag: Bool = true     //allows to togle getting real api requests
     
     
     override func viewDidLoad() {
@@ -329,7 +329,7 @@ extension ViewController: UITableViewDataSource{
                 do {
                     
                     if let dataDictionary = try JSONSerialization.jsonObject(with: data! as Data, options:[.allowFragments]) as? NSDictionary {
-                        if let notchart = dataDictionary["quoteResponse"]! as? NSDictionary{
+                        if let notchart = dataDictionary["quoteResponse"] as? NSDictionary{
                             if let results = notchart["result"] as? [[String:Any]]{//insert here
                                 print(results)
                                 if !results.isEmpty {
