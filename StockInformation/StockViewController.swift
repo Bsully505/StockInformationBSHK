@@ -20,7 +20,6 @@ class StockViewController: UIViewController {
     var curPos: Int?
     var update :(() -> Void)?
     var CurPrice: Double?
-    var UpdateLabel: (() -> Void)?
     var currStockAmt: Double!
     
     override func viewDidLoad() {
