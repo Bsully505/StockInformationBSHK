@@ -87,6 +87,7 @@ extension ViewController: UITableViewDelegate{//inisializes the stock view contr
         vc.stockSym = stockSymbols[indexPath.row]
         vc.curPos = indexPath.row as Int
         vc.CurPrice = self.GetStockValueforStockSym(stockSymbolTemp: vc.stockSym)
+        vc.CurPrice = Double(round(vc.CurPrice! * 100)/100)
         vc.update = {
             DispatchQueue.main.async {
                 self.UpdateStocks()
@@ -108,7 +109,7 @@ extension ViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProtoCell", for : indexPath) as! MyCell
         cell.label1?.text = stockSymbols[indexPath.row]
-        cell.label2?.text = String(GetStockValueforStockSym(stockSymbolTemp: cell.label1?.text ??  "BTC" ))
+        cell.label2?.text = "$ " + String(format: "%.2f",GetStockValueforStockSym(stockSymbolTemp: cell.label1?.text ??  "BTC" ))
         return cell;
     }
     
@@ -149,6 +150,9 @@ extension ViewController: UITableViewDataSource{
                                         CurVal = cpv
                                         semaphore.signal()
                                     }
+                                }
+                                if let indicators  = results[0]["indicators"] as? [[String:Any]]{
+                                    if let quote = indicators["quote"]
                                 }
                             }
                         }
