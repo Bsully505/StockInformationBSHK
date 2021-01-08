@@ -159,17 +159,24 @@ class StockViewController: UIViewController, ChartViewDelegate {
         view.addSubview(LineChart)
         
         var entries = [ChartDataEntry]()
+        let openData = UserDefaults().value(forKey: "\(stockSym!)_Open") as! [Double]
         
-        for x in 0..<10 {
+        for x in 0..<openData.count{
+            
             //should get data from api call and put data in the y values
             
-            entries.append(ChartDataEntry(x: Double(x), y: Double.random(in: 0...20)))
+            entries.append(ChartDataEntry(x: Double(x), y: openData[x]))
         }
         let set = LineChartDataSet(entries: entries)
         set.colors = ChartColorTemplates.joyful()
         LineChart.backgroundColor = UIColor.white
+        set.circleHoleRadius = 0
+        set.circleRadius = 0
         
+        set.drawValuesEnabled = (false)
         let data = LineChartData(dataSet: set)
+        
         LineChart.data = data
+        
     }
 }
