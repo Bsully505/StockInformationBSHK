@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var stockSymbols = [String]() //an array which contains all of our stocks symbols which are in our table
-    let debugmodeFlag: Bool = true     //allows to togle getting real api requests
+    var debugmodeFlag: Bool = false     //allows to togle getting real api requests
     
     
     override func viewDidLoad() {//additional setup after the view loads
@@ -87,6 +87,7 @@ extension ViewController: UITableViewDelegate{//inisializes the stock view contr
         vc.stockSym = stockSymbols[indexPath.row]
         vc.curPos = indexPath.row as Int
         vc.CurPrice = self.GetStockValueforStockSym(stockSymbolTemp: vc.stockSym)
+        vc.CurPrice = Double(round(vc.CurPrice! * 100)/100)
         vc.update = {
             DispatchQueue.main.async {
                 self.UpdateStocks()
@@ -108,7 +109,7 @@ extension ViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProtoCell", for : indexPath) as! MyCell
         cell.label1?.text = stockSymbols[indexPath.row]
-        cell.label2?.text = String(GetStockValueforStockSym(stockSymbolTemp: cell.label1?.text ??  "BTC" ))
+        cell.label2?.text = "$ " + String(format: "%.2f",GetStockValueforStockSym(stockSymbolTemp: cell.label1?.text ??  "BTC" ))
         return cell;
     }
     
@@ -118,6 +119,7 @@ extension ViewController: UITableViewDataSource{
             let x = Double.random(in: 5.0...1000.0)
             return Double(round(x*100)/100)
         }
+        var openvals: [Double] = []
         var CurVal: Double = -6.2// inisialize the return variable
         
         let headers = [
@@ -128,7 +130,7 @@ extension ViewController: UITableViewDataSource{
         ]
         let beginningURLString = "https://yahoo-finance-low-latency.p.rapidapi.com/v8/finance/chart/"
         let stockToken = stockSymbolTemp
-        let EndURL =  "?interval=1m&range=1d"
+        let EndURL =  "?interval=5m&range=1d&region=US&events=div%2Csplit"
         let realURL = beginningURLString + stockToken + EndURL
         let request = NSMutableURLRequest(url: NSURL(string: realURL)! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 20.0)
         request.httpMethod = "GET"
@@ -147,8 +149,26 @@ extension ViewController: UITableViewDataSource{
                                 if let meta = results[0]["meta"] as? [String:Any]{
                                     if let cpv = (meta["regularMarketPrice"] as? Double){
                                         CurVal = cpv
-                                        semaphore.signal()
+                                       
                                     }
+                                }
+                                if let indicators  = results[0]["indicators"] as? [String:Any]{
+                                    
+                                    if let quote = indicators["quote"] as? [[String: Any]]{
+                                        if let open = quote[0]["open"] as? [Any]{
+                                            for x in open{
+                                                openvals.append(Double(round(x as! Double*100)/100) )
+                                            }
+                                            UserDefaults().setValue(openvals, forKey: "\(stockSymbolTemp)_Open")
+                                        }
+                                        
+                                    }
+                                    else{
+                                        print("boo hoo")
+                                    }
+                                }
+                                else{
+                                    print("NO Good ")
                                 }
                             }
                         }
